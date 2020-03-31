@@ -1,3 +1,8 @@
+#Include IME.ahk
+
+; Razer Synapseなど、キーカスタマイズ系のツールを併用しているときのエラー対策
+#MaxHotkeysPerInterval 350
+
 #UseHook
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -25,13 +30,17 @@ RShift::Send,{\}
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; 5段目
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 *~LAlt::Send {Blind}{vk07}
+
 LAlt up::
-	if (A_PriorHotkey == "*~LAlt")
-	{	
-		Send,{vkF4sc029}
+	if (A_PriorHotkey == "*~LAlt" && A_PriorKey == "LAlt") {
+		if (IME_GET() == 0) {
+			IME_SET(1)
+		} else {
+			IME_SET(0)
+		}
 	}
-	return
+	Return
 
-; RCtrl up::Send,#x ; キーボードマクロで対処
-
+; RCtrl::Send, {blind}{#x} ; キーボードマクロで対処
